@@ -3,3 +3,6 @@
 .gdb_history
 Cargo.lock
 target/
+*.o
+application/Debug/bin/
+application/Debug/obj/

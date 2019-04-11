@@ -1,0 +1,38 @@
+[package]
+name = "rustfactbird"
+version = "0.1.0"
+authors = ["Mathias Koch <mk@blackbird.online>"]
+
+[dependencies]
+cortex-m-semihosting = "0.3.2"
+
+# [dependencies.stm32l4xx-hal]
+# # version = "0.3.6"
+# git = "https://github.com/stm32-rs/stm32l4xx-hal.git"
+# features = ["stm32l4x5", "rt"]
+
+[dependencies.stm32l4]
+features = ["stm32l4x5", "rt"]
+version = "0.6.0"
+
+[dependencies.cortex-m]
+version = "0.6.0"
+
+[dependencies.cortex-m-rt]
+version = "0.6.8"
+
+[dependencies.panic-halt]
+version = "0.2.0"
+
+[dependencies.freertos_rs]
+git = "https://github.com/hashmismatch/freertos.rs"
+
+[lib]
+crate-type = ["staticlib"]
+
+[profile.dev]
+codegen-units = 1
+
+[profile.release]
+lto = true # better optimizations
+debug = true
