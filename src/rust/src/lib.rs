@@ -11,11 +11,11 @@
 
 extern crate freertos_rs;
 extern crate cortex_m_semihosting;
+extern crate cortex_m;
 extern crate alloc;
 extern crate panic_halt;
 
 use cortex_m_semihosting::hprintln;
-use self::alloc::vec;
 use freertos_rs::*;
 
 pub mod freertos_alloc;
@@ -25,26 +25,58 @@ mod ctypes;
 static ALLOCATOR: freertos_alloc::FreeRTOSAlloc = freertos_alloc::FreeRTOSAlloc;
 
 #[no_mangle]
+pub extern fn application_idle_hook() {
+}
+
+#[no_mangle]
+pub extern fn application_stack_overflow_hook() {
+    panic!("StackOverflow");
+}
+
+#[no_mangle]
 pub extern fn main_entry() {
 
-    // Initialize the heap for FreeRTOS. We are using Heap_5 because the RAM is not contiguous.
-    unsafe { ALLOCATOR.init() }
+    // Initialize the heap for FreeRTOS. Must be called before anything else, if using Heap_5!
+    // unsafe { ALLOCATOR.init() }
 
-    // let xs = vec![0, 1, 2];
 
     let check = shim_sanity_check();
 	if check.is_err() {
         hprintln!("Shim sanity check failed: {:?}", check).unwrap();
 	}
 
+    Task::new().name("Task1").stack_size(512).start(|| {
+        hprintln!("Hello from RUST new TASK! FreeRTOS looks good!").unwrap();
+        loop {
+            // CurrentTask::delay(Duration::ms(1000));
+            hprintln!("\\\\\\\\\\ 1 ///// ").unwrap();
+        }
+    }).unwrap();
 
-    let mut n = 0;
+    Task::new().name("Task2").stack_size(512).start(|| {
+        hprintln!("Hello from RUST TAKS2! FreeRTOS looks good!").unwrap();
+        loop {
+            // CurrentTask::delay(Duration::ms(10));
+            hprintln!("///// 2 \\\\\\\\\\").unwrap();
+        }
+    }).unwrap();
 
-    loop {
-        n = n + 5;
-    }
+    start_kernel();
+
+    hprintln!("Should not hit here! EVER!").unwrap();
+
+    loop {}
 }
 
+extern {
+	fn vTaskStartScheduler();
+}
+
+pub fn start_kernel() {
+	unsafe {
+		vTaskStartScheduler();
+	}
+}
 
 
 #[no_mangle]

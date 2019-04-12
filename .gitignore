@@ -6,3 +6,4 @@ target/
 *.o
 application/Debug/bin/
 application/Debug/obj/
+.vscode

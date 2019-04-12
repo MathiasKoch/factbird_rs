@@ -58,8 +58,6 @@ SRC_C += vendor/amazon-freertos/lib/FreeRTOS/stream_buffer.c
 SRC_C += vendor/amazon-freertos/lib/FreeRTOS/tasks.c
 SRC_C += vendor/amazon-freertos/lib/FreeRTOS/timers.c
 
-# SRC_C += vendor/amazon-freertos/lib/FreeRTOS/cmsis_os.c
-
 #user
 SRC_C += src/c/src/main.c
 
@@ -86,11 +84,11 @@ DEPENDENCY_LIST = $(addprefix $(OBJ_DIR)/,$(patsubst %.c,%.d,$(SRC_C_LIST))) $(a
 # -------------------------------------------------------------------
 
 CFLAGS =
-CFLAGS += -mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard -DSTM32L475xx -O3 -Wall -fdata-sections -ffunction-sections -std=gnu11
+CFLAGS += -mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard -DSTM32L475xx -O0 -ggdb -Wall -fdata-sections -ffunction-sections -std=gnu11
 # -mcpu=cortex-m4 -mthumb -g2 -w -O2 -Wno-pointer-sign -fno-common -fmessage-length=0  -ffunction-sections -fdata-sections -fomit-frame-pointer -fno-short-enums -mcpu=cortex-m4 -DF_CPU=166000000L -std=gnu99 -fsigned-char
 
 LFLAGS =
-LFLAGS += -mcpu=cortex-m4 -mthumb -g -mfpu=fpv4-sp-d16 -mfloat-abi=hard --specs=nano.specs -Wl,-Map=$(BIN_DIR)/${TARGET}.map -Os -Wl,--gc-sections -Wl,--cref -Wl,--no-enum-size-warning -Wl,--no-wchar-size-warning
+LFLAGS += -mcpu=cortex-m4 -mthumb -g -mfpu=fpv4-sp-d16 -mfloat-abi=hard --specs=nano.specs -Wl,-Map=$(BIN_DIR)/${TARGET}.map -O0 -Wl,--gc-sections -Wl,--cref -Wl,--no-enum-size-warning -Wl,--no-wchar-size-warning
 
 LIBFLAGS =
 all: LIBFLAGS += -lm -lc -lnosys

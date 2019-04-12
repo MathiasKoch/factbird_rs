@@ -25,7 +25,8 @@ version = "0.6.8"
 version = "0.2.0"
 
 [dependencies.freertos_rs]
-git = "https://github.com/hashmismatch/freertos.rs"
+# git = "https://github.com/smilykoch/freertos.rs"
+path = "../../../freertos.rs/"
 
 [lib]
 crate-type = ["staticlib"]
