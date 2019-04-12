@@ -5,6 +5,7 @@ OBJ_DIR=$(TARGET)/Debug/rust_obj
 
 .PHONY: application
 application:
+	# nightly-2019-04-12
 	cd src/rust && rustup override set nightly
 	cd src/rust && cargo build -v
 	mkdir -p $(OBJ_DIR)

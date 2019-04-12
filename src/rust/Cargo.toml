@@ -16,7 +16,7 @@ features = ["stm32l4x5", "rt"]
 version = "0.6.0"
 
 [dependencies.cortex-m]
-version = "0.6.0"
+version = "0.5.8"
 
 [dependencies.cortex-m-rt]
 version = "0.6.8"
